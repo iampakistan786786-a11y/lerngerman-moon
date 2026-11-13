@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LernGerman MOON - A1 Vocabulary & Sentence Practice</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            500: '#e11d48', // German Red Vibe
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            accent: '#f59e0b' // German Gold
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+        .german-gradient-badge {
+            background: linear-gradient(135deg, #000000 0%, #dd0000 50%, #ffcc00 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-amber-500/20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl german-gradient-badge flex items-center justify-center text-white font-black text-xl shadow-md border border-amber-400/50">
+                        🌙
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                            LernGerman MOON <span id="level-badge" class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-xs px-2 py-0.5 rounded-full font-semibold">A1 (368)</span>
+                        </h1>
+                        <p id="level-subtitle" class="text-xs text-slate-500 dark:text-slate-400">German A1 Vocabulary & Sentences</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <!-- Level Switcher -->
+                    <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <button id="btn-level-a1" onclick="switchLevel('A1')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow-sm">A1</button>
+                        <button id="btn-level-a2" onclick="switchLevel('A2')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-amber-500">A2</button>
+                    </div>
+
+                    <!-- Navigation Menu Dropdown Button -->
+                    <div class="relative">
+                        <button id="menu-btn" onclick="toggleMenu()" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition-all">
+                            <i class="fa-solid fa-bars text-base"></i>
+                            <span>Menu</span>
+                            <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200" id="menu-chevron"></i>
+                        </button>
+
+                        <!-- Dropdown Menu Items -->
+                        <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-2 z-50 space-y-1">
+                            <button onclick="selectMenuOption('words')" class="menu-item-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                                <i class="fa-solid fa-book-bookmark text-amber-500 w-5"></i> <span id="menu-label-words">A1 Vocabulary List</span>
+                            </button>
+                            <button onclick="selectMenuOption('cards')" class="menu-item-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                                <i class="fa-solid fa-clone text-red-500 w-5"></i> Flashcards Practice
+                            </button>
+                            <button onclick="selectMenuOption('sentences')" class="menu-item-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                                <i class="fa-solid fa-comment-dots text-amber-500 w-5"></i> <span id="menu-label-sentence">A1 Sentence Practice</span>
+                            </button>
+                            <button onclick="selectMenuOption('typing')" class="menu-item-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                                <i class="fa-solid fa-keyboard text-purple-500 w-5"></i> <span id="menu-label-typing">A1 Typing Practice</span>
+                            </button>
+                            <button onclick="selectMenuOption('quiz')" class="menu-item-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                                <i class="fa-solid fa-pen-ruler text-emerald-500 w-5"></i> Practice Quiz Test
+                            </button>
+                            <div class="border-t border-slate-100 dark:border-slate-800 my-1"></div>
+                            <button onclick="selectMenuOption('bulk')" class="menu-item-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                                <i class="fa-solid fa-plus-circle text-blue-500 w-5"></i> Add / Import Words
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="theme-toggle" onclick="toggleDarkMode()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Theme">
+                        <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- TAB 1: GERMAN VOCABULARY LIST -->
+        <section id="tab-words" class="tab-content space-y-6">
+            <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+                    <input type="text" id="search-input" oninput="renderWordList()" placeholder="Search German, English or Urdu..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+
+                <div class="flex items-center gap-3 w-full md:w-auto flex-wrap justify-between md:justify-end">
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs font-semibold text-slate-500 dark:text-slate-400">Batch:</label>
+                        <select id="filter-batch" onchange="renderWordList()" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs outline-none">
+                            <option value="all">All 368 Words</option>
+                            <option value="1-50">Words 1 - 50</option>
+                            <option value="51-100">Words 51 - 100</option>
+                            <option value="101-150">Words 101 - 150</option>
+                            <option value="151-200">Words 151 - 200</option>
+                            <option value="201-250">Words 201 - 250</option>
+                            <option value="251-300">Words 251 - 300</option>
+                            <option value="301-368">Words 301 - 368</option>
+                        </select>
+                    </div>
+
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-semibold">
+                        Showing: <span id="count-display" class="text-amber-600 dark:text-amber-400 font-bold">368</span> items
+                    </div>
+
+                    <button onclick="restoreDefaultA1Words()" class="px-3 py-2 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-rotate-left mr-1"></i>Reset List
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vocabulary Cards List Grid -->
+            <div id="words-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[72vh] overflow-y-auto pr-1">
+                <!-- Word items generated here -->
+            </div>
+        </section>
+
+        <!-- TAB 2: FLASHCARDS -->
+        <section id="tab-cards" class="tab-content hidden space-y-6">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <!-- Batch Filter & Counters -->
+                <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold text-slate-500">Practice Batch:</span>
+                        <select id="card-batch-select" onchange="onCardBatchChange()" class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs outline-none font-medium">
+                            <option value="all">All (1-368)</option>
+                            <option value="1-50">Set 1 (1-50)</option>
+                            <option value="51-100">Set 2 (51-100)</option>
+                            <option value="101-150">Set 3 (101-150)</option>
+                            <option value="151-200">Set 4 (151-200)</option>
+                            <option value="201-250">Set 5 (201-250)</option>
+                            <option value="251-300">Set 6 (251-300)</option>
+                            <option value="301-368">Set 7 (301-368)</option>
+                        </select>
+                    </div>
+                    <div class="text-xs font-bold text-amber-600 dark:text-amber-400" id="card-counter">
+                        1 / 368
+                    </div>
+                </div>
+
+                <!-- Interactive Flashcard Component -->
+                <div class="perspective-1000 w-full h-80 cursor-pointer" onclick="flipCard()">
+                    <div id="flashcard" class="relative w-full h-full duration-500 transform-style-3d bg-white dark:bg-slate-900 rounded-3xl border border-amber-500/30 shadow-xl p-8 flex flex-col items-center justify-between text-center select-none">
+                        <!-- Card Front (German) -->
+                        <div class="absolute inset-0 backface-hidden p-8 flex flex-col items-center justify-between">
+                            <div class="w-full flex items-center justify-between">
+                                <span id="card-num-badge" class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-semibold text-slate-500">#1</span>
+                                <button onclick="event.stopPropagation(); speakCurrentCard();" class="p-2.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:scale-110 transition">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h3 id="card-german-text" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Abfahrt</h3>
+                                <p id="card-plural-text" class="text-sm font-semibold text-slate-400">Plural: Abfahrten</p>
+                            </div>
+
+                            <p class="text-xs text-slate-400 flex items-center gap-1">
+                                <i class="fa-solid fa-rotate"></i> Click card to flip meaning
+                            </p>
+                        </div>
+
+                        <!-- Card Back (English & Urdu) -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col items-center justify-between bg-slate-900 text-white rounded-3xl border border-red-500/30">
+                            <div class="w-full flex items-center justify-between">
+                                <span class="text-xs uppercase font-bold text-amber-400">Translation</span>
+                                <i class="fa-solid fa-language text-lg text-slate-400"></i>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h4 id="card-english-text" class="text-2xl font-bold text-slate-100">departure</h4>
+                                <h4 id="card-urdu-text" class="text-3xl font-extrabold text-amber-400 font-serif" dir="rtl">روانگی</h4>
+                            </div>
+
+                            <p class="text-xs text-slate-400">Click to return to front</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard Controls -->
+                <div class="flex items-center justify-between gap-4">
+                    <button onclick="prevCard()" class="px-5 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl font-bold text-slate-700 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button onclick="markStatus('mastered')" class="px-4 py-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 rounded-2xl font-bold text-xs hover:bg-emerald-500/20 transition">
+                        <i class="fa-solid fa-check mr-1"></i> Mastered
+                    </button>
+                    <button onclick="nextCard()" class="px-5 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold shadow-md transition flex items-center gap-2">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: SENTENCE PRACTICE & GENERATOR -->
+        <section id="tab-sentences" class="tab-content hidden space-y-6">
+            <div class="max-w-xl mx-auto space-y-6">
+                <div class="text-center space-y-1">
+                    <h2 id="sentence-tab-title" class="text-2xl font-extrabold text-slate-900 dark:text-white">A1 Sentence Practice</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Yahan apna word ya idea likhein, aur app usko German sentence mein convert karke card par set kar degi!
+                    </p>
+                </div>
+
+                <!-- Input Controls Box -->
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Apna Word / Sentence Likhein:</label>
+                        <input type="text" id="user-input-prompt" placeholder="e.g. coffee, house, friend ya koi bhi baat..." class="w-full px-4 py-3 rounded-xl border border-amber-500/40 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-semibold outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button onclick="generateCustomA1SentenceCard()" class="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl shadow transition text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Create A1 Sentence Card
+                        </button>
+                        <button onclick="loadRandomA1Sentence()" class="px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl transition text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-shuffle"></i> Random
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Flip Card -->
+                <div class="perspective-1000 w-full h-[320px] cursor-pointer" onclick="flipLiveSentenceCard()">
+                    <div id="live-sentence-flip-card" class="relative w-full h-full duration-500 transform-style-3d bg-white dark:bg-slate-900 rounded-3xl border-2 border-amber-500/40 shadow-2xl p-6 sm:p-8 flex flex-col justify-between text-center select-none">
+                        <!-- Front Side (Generated German Sentence) -->
+                        <div class="absolute inset-0 backface-hidden p-6 sm:p-8 flex flex-col justify-between items-center">
+                            <div class="w-full flex items-center justify-between">
+                                <span class="px-3 py-1 bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-full text-[10px] font-extrabold uppercase tracking-widest border border-amber-500/25">German Sentence</span>
+                                <button onclick="event.stopPropagation(); speakLiveSentence();" class="p-2.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:scale-110 transition shadow-sm" title="Listen">
+                                    <i class="fa-solid fa-volume-high text-sm"></i>
+                                </button>
+                            </div>
+
+                            <div class="space-y-2 my-auto">
+                                <h3 id="live-card-german" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Ich trinke gerne Kaffee.</h3>
+                                <p class="text-xs text-slate-400">Card par click karke back translation dekhein</p>
+                            </div>
+
+                            <div class="w-full flex items-center justify-center pt-2">
+                                <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5 bg-amber-500/10 px-3 py-1.5 rounded-xl">
+                                    <i class="fa-solid fa-rotate"></i> Click to Flip Card
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Back Side (Translations) -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 p-6 sm:p-8 flex flex-col justify-between items-center bg-slate-950 text-white rounded-3xl border-2 border-red-500/30">
+                            <div class="w-full flex items-center justify-between">
+                                <span class="text-[10px] uppercase font-extrabold text-red-400 tracking-widest">Translations</span>
+                                <i class="fa-solid fa-language text-lg text-amber-400"></i>
+                            </div>
+
+                            <div class="space-y-4 w-full my-auto">
+                                <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+                                    <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">English Translation</span>
+                                    <h4 id="live-card-english" class="text-base sm:text-lg font-bold text-slate-100 mt-0.5">I like to drink coffee.</h4>
+                                </div>
+                                <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+                                    <span class="text-[9px] text-amber-400 uppercase font-bold tracking-wider">اردو ترجمہ</span>
+                                    <h4 id="live-card-urdu" class="text-xl sm:text-2xl font-extrabold text-amber-400 font-serif mt-0.5" dir="rtl">مجھے کافی پینا پسند ہے۔</h4>
+                                </div>
+                            </div>
+
+                            <div class="w-full flex items-center justify-center pt-2">
+                                <span class="text-[11px] text-slate-400 font-medium">Click again to return</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3.5: TYPING PRACTICE (A1 & A2) -->
+        <section id="tab-typing" class="tab-content hidden space-y-6">
+            <div class="max-w-2xl mx-auto space-y-5">
+                <!-- Header & Live Stats -->
+                <div class="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 id="typing-tab-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-keyboard text-purple-500"></i> A1 Typing Practice
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Har word ke hisaab se German sentence type karein!</p>
+                    </div>
+                    <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-around sm:justify-end">
+                        <div class="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-xl text-center">
+                            <div class="text-[10px] font-bold uppercase text-amber-600 dark:text-amber-400">Progress</div>
+                            <div id="typing-progress-badge" class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">1 / 10</div>
+                        </div>
+                        <div class="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center">
+                            <div class="text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400">Accuracy</div>
+                            <div id="typing-accuracy-badge" class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">100%</div>
+                        </div>
+                        <div class="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-xl text-center">
+                            <div class="text-[10px] font-bold uppercase text-purple-600 dark:text-purple-400">Speed</div>
+                            <div id="typing-wpm-badge" class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">0 WPM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target Word & Sentence Display Card -->
+                <div class="bg-white dark:bg-slate-900 p-5 sm:p-7 rounded-3xl border-2 border-purple-500/30 shadow-xl space-y-5">
+                    <!-- Top Word Context Bar -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span id="typing-word-tag" class="px-3 py-1 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full text-xs font-extrabold border border-purple-500/20">
+                                Word #1: Abfahrt
+                            </span>
+                            <span id="typing-word-meaning" class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                (departure • روانگی)
+                            </span>
+                        </div>
+                        <button onclick="speakTypingSentence()" class="p-2.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:scale-110 transition" title="Listen Sentence">
+                            <i class="fa-solid fa-volume-high text-sm"></i>
+                        </button>
+                    </div>
+
+                    <!-- Live Highlighted Target Sentence -->
+                    <div class="space-y-2 text-center py-2">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type This German Sentence:</div>
+                        <div id="typing-target-display" class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-wide leading-relaxed select-none break-words px-2 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800">
+                            <!-- Live colored characters injected here -->
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 pt-1 text-xs">
+                            <span id="typing-sentence-en" class="text-slate-600 dark:text-slate-300 font-medium">The departure is at eight o'clock.</span>
+                            <span class="hidden sm:inline text-slate-400">•</span>
+                            <span id="typing-sentence-ur" class="text-amber-600 dark:text-amber-400 font-bold font-serif" dir="rtl">روانگی آٹھ بجے ہے۔</span>
+                        </div>
+                    </div>
+
+                    <!-- Typing Input Area (Mobile + Laptop Friendly) -->
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="text" id="typing-user-input" oninput="handleTypingInput()" onkeydown="handleTypingKeydown(event)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Yahan upar wala sentence type karein..." class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border-2 border-purple-500/40 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-base sm:text-lg font-bold outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition">
+                        </div>
+
+                        <!-- Mobile & Laptop Quick German Special Characters Bar -->
+                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[11px] font-bold text-slate-400 mr-1">German Keys:</span>
+                                <button type="button" onclick="insertGermanChar('ä')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">ä</button>
+                                <button type="button" onclick="insertGermanChar('ö')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">ö</button>
+                                <button type="button" onclick="insertGermanChar('ü')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">ü</button>
+                                <button type="button" onclick="insertGermanChar('ß')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">ß</button>
+                                <button type="button" onclick="insertGermanChar('Ä')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">Ä</button>
+                                <button type="button" onclick="insertGermanChar('Ö')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">Ö</button>
+                                <button type="button" onclick="insertGermanChar('Ü')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-extrabold text-sm border border-slate-200 dark:border-slate-700 transition active:scale-95">Ü</button>
+                            </div>
+
+                            <div class="flex items-center gap-2 ml-auto">
+                                <button type="button" onclick="prevTypingSentence()" class="px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition flex items-center gap-1">
+                                    <i class="fa-solid fa-arrow-left"></i> Prev
+                                </button>
+                                <button type="button" onclick="nextTypingSentence()" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                                    Next Sentence <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completion Banner -->
+                    <div id="typing-success-banner" class="hidden p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-center text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check text-base"></i>
+                        <span>Bahut khoob! Bilkul sahi type kiya. Agle sentence par ja rahe hain...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: QUIZ TEST -->
+        <section id="tab-quiz" class="tab-content hidden space-y-6">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <!-- Config Screen -->
+                <div id="quiz-config" class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">German Practice Test</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Test your memory on the 368 German A1 words.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-2">Quiz Mode</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="border border-slate-200 dark:border-slate-800 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-amber-500 transition">
+                                    <input type="radio" name="quiz-type" value="mcq" checked class="accent-red-600">
+                                    <div>
+                                        <div class="font-bold text-sm text-slate-800 dark:text-slate-200">MCQ Test</div>
+                                        <div class="text-xs text-slate-500">Choose translation</div>
+                                    </div>
+                                </label>
+                                <label class="border border-slate-200 dark:border-slate-800 p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-amber-500 transition">
+                                    <input type="radio" name="quiz-type" value="spelling" class="accent-red-600">
+                                    <div>
+                                        <div class="font-bold text-sm text-slate-800 dark:text-slate-200">Spelling Test</div>
+                                        <div class="text-xs text-slate-500">Type German word</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-2">Number of Questions</label>
+                            <select id="quiz-limit" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none">
+                                <option value="5">5 Questions</option>
+                                <option value="10" selected>10 Questions</option>
+                                <option value="20">20 Questions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="startQuiz()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 text-white font-bold rounded-2xl shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> Start Quiz Now
+                    </button>
+                </div>
+
+                <!-- Active Test View -->
+                <div id="quiz-active" class="hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                        <span id="quiz-progress" class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Question 1 of 10</span>
+                        <span id="quiz-score-badge" class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-semibold">Score: 0</span>
+                    </div>
+
+                    <div class="text-center py-4 space-y-2">
+                        <span class="text-xs text-slate-400 uppercase font-semibold">Meaning / Context:</span>
+                        <h3 id="quiz-question-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">departure / روانگی</h3>
+                    </div>
+
+                    <div id="quiz-options-container" class="space-y-3">
+                        <!-- MCQ Options or Text input dynamically inserted -->
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl text-center font-bold text-sm"></div>
+
+                    <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden w-full py-3 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-bold rounded-xl transition shadow">
+                        Next Question <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-results" class="hidden bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm text-center space-y-6">
+                    <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto text-3xl border border-amber-500/30">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Test Completed!</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Aapka result neeche maujood hai:</p>
+                    </div>
+
+                    <div class="text-4xl font-extrabold text-amber-500" id="final-score-text">
+                        8 / 10
+                    </div>
+
+                    <button onclick="resetQuiz()" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow transition">
+                        Try Another Quiz
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: ADD & BULK IMPORT -->
+        <section id="tab-bulk" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Single Word Form -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-red-600"></i> Add Single Word / Sentence
+                    </h3>
+                    <form onsubmit="handleSingleWordSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">German Word *</label>
+                            <input type="text" id="input-german" required placeholder="e.g. Haus" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Plural Form (Optional)</label>
+                            <input type="text" id="input-plural" placeholder="e.g. Häuser" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">English Meaning *</label>
+                            <input type="text" id="input-english" required placeholder="e.g. House" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Urdu Meaning (اردو) *</label>
+                            <input type="text" id="input-urdu" required placeholder="e.g. گھر" dir="rtl" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow transition">
+                            Save Word
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Bulk Paste Import -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-paste text-amber-500"></i> Bulk Paste Import
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Format: <code class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded font-mono text-xs">German | Plural | English | Urdu</code>
+                    </p>
+                    <textarea id="bulk-paste-input" rows="8" placeholder="Abfahrt | Abfahrten | departure | روانگی&#10;Auto | Autos | car | گاڑی" class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-mono text-xs outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                    <button onclick="processBulkImport()" class="w-full py-3 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-bold rounded-xl shadow transition border border-amber-500/30">
+                        Import All Lines Now
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 text-sm border border-amber-500/40">
+        <i id="toast-icon" class="fa-solid fa-circle-info text-amber-400"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+        // --- SCRIPT SECTION ---
+        <script>
+        // --- 368 DEFAULT A1 GERMAN VOCABULARY DATA ---
+        const DEFAULT_A1_WORDS = [
+            { german: "Abfahrt", plural: "Abfahrten", english: "departure", urdu: "روانگی" },
+            { german: "Absender", plural: "Absender", english: "sender", urdu: "بھیجنے والا" },
+            { german: "Achtung", plural: "-", english: "attention", urdu: "توجہ / دھیان" },
+            { german: "Adresse", plural: "Adressen", english: "address", urdu: "پتہ" },
+            { german: "Alter", plural: "-", english: "age", urdu: "عمر" },
+            { german: "Angebot", plural: "Angebote", english: "offer", urdu: "پیشکش" },
+            { german: "Anfang", plural: "Anfänge", english: "beginning", urdu: "آغاز" },
+            { german: "Ankunft", plural: "Ankünfte", english: "arrival", urdu: "آمد" },
+            { german: "Anmeldung", plural: "Anmeldungen", english: "registration", urdu: "رجسٹریشن" },
+            { german: "Anrede", plural: "Anreden", english: "salutation", urdu: "سلام" },
+            { german: "Anruf", plural: "Anrufe", english: "phone call", urdu: "فون کال" },
+            { german: "Anrufbeantworter", plural: "Anrufbeantworter", english: "answering machine", urdu: "جواب دینے والی مشین" },
+            { german: "Ansage", plural: "Ansagen", english: "announcement", urdu: "اعلان" },
+            { german: "Anschluss", plural: "Anschlüsse", english: "connection", urdu: "کنکشن" },
+            { german: "Antwort", plural: "Antworten", english: "answer", urdu: "جواب" },
+            { german: "Anzeige", plural: "Anzeigen", english: "advertisement", urdu: "اشتہار" },
+            { german: "Apartment", plural: "Apartments", english: "apartment", urdu: "اپارٹمنٹ" },
+            { german: "Apfel", plural: "Äpfel", english: "apple", urdu: "سیب" },
+            { german: "Appetit", plural: "-", english: "appetite", urdu: "بھوک" },
+            { german: "Arbeit", plural: "Arbeiten", english: "work", urdu: "کام" },
+            { german: "Arbeitsplatz", plural: "Arbeitsplätze", english: "workplace", urdu: "کام کی جگہ" },
+            { german: "Arm", plural: "Arme", english: "arm", urdu: "بازو" },
+            { german: "Arzt", plural: "Ärzte", english: "physician", urdu: "طبیب / ڈاکٹر" },
+            { german: "Aufgabe", plural: "Aufgaben", english: "task", urdu: "کام / ٹاسک" },
+            { german: "Aufzug", plural: "Aufzüge", english: "elevator / lift", urdu: "لفٹ" },
+            { german: "Auge", plural: "Augen", english: "eye", urdu: "آنکھ" },
+            { german: "Ausflug", plural: "Ausflüge", english: "excursion", urdu: "ضمنی سفر" },
+            { german: "Ausgang", plural: "Ausgänge", english: "exit", urdu: "باہر نکلنا" },
+            { german: "Auskunft", plural: "Auskünfte", english: "information", urdu: "معلومات" },
+            { german: "Ausland", plural: "-", english: "abroad", urdu: "بیرون ملک" },
+            { german: "Ausländer", plural: "Ausländer", english: "foreigner", urdu: "غیر ملکی" },
+            { german: "Aussage", plural: "Aussagen", english: "statement", urdu: "بیان" },
+            { german: "Ausweis", plural: "Ausweise", english: "ID card", urdu: "شناختی کارڈ" },
+            { german: "Auto", plural: "Autos", english: "car", urdu: "گاڑی" },
+            { german: "Autobahn", plural: "Autobahnen", english: "highway", urdu: "ہائی وے" },
+            { german: "Automat", plural: "Automaten", english: "vending machine", urdu: "وینڈنگ مشین" },
+            { german: "Baby", plural: "Babys", english: "baby", urdu: "بچہ" },
+            { german: "Bäckerei", plural: "Bäckereien", english: "bakery", urdu: "بیکری" },
+            { german: "Bad", plural: "Bäder", english: "bathroom", urdu: "باتھ روم" },
+            { german: "Bahn", plural: "Bahnen", english: "railway / train", urdu: "ریلوے / ٹرین" },
+            { german: "Bahnhof", plural: "Bahnhöfe", english: "train station", urdu: "ریلوے اسٹیشن" },
+            { german: "Bahnsteig", plural: "Bahnsteige", english: "platform", urdu: "پلیٹ فارم" },
+            { german: "Balkon", plural: "Balkone", english: "balcony", urdu: "بالکنی" },
+            { german: "Banane", plural: "Bananen", english: "banana", urdu: "کیلا" },
+            { german: "Bank", plural: "Banken", english: "bank", urdu: "بینک" },
+            { german: "Bauch", plural: "Bäuche", english: "belly", urdu: "پیٹ" },
+            { german: "Baum", plural: "Bäume", english: "tree", urdu: "درخت" },
+            { german: "Beamte", plural: "Beamten", english: "officer", urdu: "افسر" },
+            { german: "Bein", plural: "Beine", english: "leg", urdu: "ٹانگ" },
+            { german: "Beispiel", plural: "Beispiele", english: "example", urdu: "مثال" },
+            { german: "Bekannte", plural: "Bekannten", english: "acquaintance", urdu: "واقف کار" },
+            { german: "Beruf", plural: "Berufe", english: "profession", urdu: "پیشہ" },
+            { german: "Bett", plural: "Betten", english: "bed", urdu: "بستر" },
+            { german: "Bier", plural: "Biere", english: "beer", urdu: "بیئر" },
+            { german: "Bild", plural: "Bilder", english: "picture", urdu: "تصویر" },
+            { german: "Birne", plural: "Birnen", english: "pear", urdu: "ناشپاتی" },
+            { german: "Bisschen", plural: "-", english: "a little", urdu: "تھوڑا سا" },
+            { german: "Bleistift", plural: "Bleistifte", english: "pencil", urdu: "پنسل" },
+            { german: "Blick", plural: "Blicke", english: "view", urdu: "منظر / نظر" },
+            { german: "Blume", plural: "Blumen", english: "flower", urdu: "پھول" },
+            { german: "Bogen", plural: "Bögen", english: "sheet of paper", urdu: "کاغذ کا ورق" },
+            { german: "Brief", plural: "Briefe", english: "letter", urdu: "خط" },
+            { german: "Briefmarke", plural: "Briefmarken", english: "postage stamp", urdu: "ڈاک ٹکٹ" },
+            { german: "Brot", plural: "Brote", english: "bread", urdu: "روٹی" },
+            { german: "Brötchen", plural: "Brötchen", english: "bread rolls", urdu: "بریڈ رولس" },
+            { german: "Bruder", plural: "Brüder", english: "brother", urdu: "بھائی" },
+            { german: "Buch", plural: "Bücher", english: "book", urdu: "کتاب" },
+            { german: "Buchstabe", plural: "Buchstaben", english: "letter", urdu: "حرف" },
+            { german: "Bus", plural: "Busse", english: "bus", urdu: "بس" },
+            { german: "Butter", plural: "-", english: "butter", urdu: "مکھن" },
+            { german: "Café", plural: "Cafés", english: "cafe", urdu: "کیفے" },
+            { german: "CD", plural: "CDs", english: "cd", urdu: "سی ڈی" },
+            { german: "Chef", plural: "Chefs", english: "boss", urdu: "باس" },
+            { german: "Computer", plural: "Computer", english: "computer", urdu: "کمپیوٹر" },
+            { german: "Dame", plural: "Damen", english: "lady", urdu: "خاتون" },
+            { german: "Dank", plural: "-", english: "gratitude", urdu: "شکریہ" },
+            { german: "Datum", plural: "Daten", english: "date", urdu: "تاریخ" },
+            { german: "Disco", plural: "Discos", english: "disco", urdu: "ڈسکو" },
+            { german: "Doktor", plural: "Doktoren", english: "doctor", urdu: "ڈاکٹر" },
+            { german: "Doppelzimmer", plural: "Doppelzimmer", english: "double room", urdu: "ڈبل کمرہ" },
+            { german: "Dorf", plural: "Dörfer", english: "village", urdu: "گاؤں" },
+            { german: "Drucker", plural: "Drucker", english: "printer", urdu: "پرنٹر" },
+            { german: "Durchsage", plural: "Durchsagen", english: "announcement", urdu: "اعلان" },
+            { german: "Durst", plural: "-", english: "thirst", urdu: "پیاس" },
+            { german: "Dusche", plural: "Duschen", english: "shower", urdu: "شاور" },
+            { german: "Ecke", plural: "Ecken", english: "corner", urdu: "گوشہ / کونہ" },
+            { german: "Ehefrau", plural: "Ehefrauen", english: "wife", urdu: "بیوی" },
+            { german: "Ehemann", plural: "Ehemänner", english: "husband", urdu: "شوہر" },
+            { german: "Ei", plural: "Eier", english: "egg", urdu: "انڈا" },
+            { german: "Eingang", plural: "Eingänge", english: "entrance", urdu: "داخلی راستہ" },
+            { german: "Einladung", plural: "Einladungen", english: "invitation", urdu: "دعوت" },
+            { german: "Eintritt", plural: "Eintritte", english: "admission", urdu: "داخلہ" },
+            { german: "Einzelzimmer", plural: "Einzelzimmer", english: "single room", urdu: "سنگل کمرہ" },
+            { german: "Eltern", plural: "Eltern", english: "parents", urdu: "والدین" },
+            { german: "E-Mail", plural: "E-Mails", english: "e-mail", urdu: "ای میل" },
+            { german: "Empfänger", plural: "Empfänger", english: "recipient", urdu: "وصول کنندہ" },
+            { german: "Ende", plural: "Enden", english: "end", urdu: "ختم" },
+            { german: "Entschuldigung", plural: "Entschuldigungen", english: "excuse me", urdu: "معاف کیجئے" },
+            { german: "Ergebnis", plural: "Ergebnisse", english: "result", urdu: "نتیجہ" },
+            { german: "Erwachsene", plural: "Erwachsenen", english: "adult", urdu: "بالغ" },
+            { german: "Essen", plural: "-", english: "food/meal", urdu: "کھانا" },
+            { german: "Fahrer", plural: "Fahrer", english: "driver", urdu: "ڈرائیور" },
+            { german: "Fahrkarte", plural: "Fahrkarten", english: "ticket", urdu: "ٹکٹ" },
+            { german: "Fahrrad", plural: "Fahrräder", english: "bicycle", urdu: "سائیکل" },
+            { german: "Familie", plural: "Familien", english: "family", urdu: "خاندان" },
+            { german: "Familienname", plural: "Familiennamen", english: "surname", urdu: "کنیت" },
+            { german: "Familienstand", plural: "Familienstände", english: "marital status", urdu: "ازدواجی حیثیت" },
+            { german: "Farbe", plural: "Farben", english: "color", urdu: "رنگ" },
+            { german: "Fax", plural: "Faxe", english: "fax", urdu: "فیکس" },
+            { german: "Feier", plural: "Feiern", english: "celebration", urdu: "جشن" },
+            { german: "Fehler", plural: "Fehler", english: "mistake", urdu: "غلطی" },
+            { german: "Feuer", plural: "Feuer", english: "fire", urdu: "آگ" },
+            { german: "Fieber", plural: "-", english: "fever", urdu: "بخار" },
+            { german: "Film", plural: "Filme", english: "film", urdu: "فلم" },
+            { german: "Firma", plural: "Firmen", english: "company", urdu: "کمپنی" },
+            { german: "Fisch", plural: "Fische", english: "fish", urdu: "مچھلی" },
+            { german: "Flasche", plural: "Flaschen", english: "bottle", urdu: "بوتل" },
+            { german: "Fleisch", plural: "-", english: "meat", urdu: "گوشت" },
+            { german: "Abflug", plural: "Abflüge", english: "flight departure", urdu: "پرواز کی روانگی" },
+            { german: "Flughafen", plural: "Flughäfen", english: "airport", urdu: "ہوائی اڈہ" },
+            { german: "Flugzeug", plural: "Flugzeuge", english: "airplane", urdu: "ہوائی جہاز" },
+            { german: "Formular", plural: "Formulare", english: "form", urdu: "فارم" },
+            { german: "Foto", plural: "Fotos", english: "photo", urdu: "تصویر" },
+            { german: "Frage", plural: "Fragen", english: "question", urdu: "سوال" },
+            { german: "Frau", plural: "Frauen", english: "woman", urdu: "عورت" },
+            { german: "Freizeit", plural: "-", english: "leisure time", urdu: "فرصت کا وقت" },
+            { german: "Freund", plural: "Freunde", english: "friend", urdu: "دوست" },
+            { german: "Freundin", plural: "Freundinnen", english: "girlfriend", urdu: "گرل فرینڈ" },
+            { german: "Frühstück", plural: "Frühstücke", english: "breakfast", urdu: "ناشتہ" },
+            { german: "Führung", plural: "Führungen", english: "guide", urdu: "رہنما" },
+            { german: "Fuss", plural: "Füsse", english: "foot", urdu: "پاؤں" },
+            { german: "Fussball", plural: "Fussbälle", english: "football", urdu: "فٹ بال" },
+            { german: "Garten", plural: "Gärten", english: "garden", urdu: "باغ" },
+            { german: "Gast", plural: "Gäste", english: "guest", urdu: "مہمان" },
+            { german: "Geburtsjahr", plural: "Geburtsjahre", english: "year of birth", urdu: "پیدائش کا سال" },
+            { german: "Geburtsort", plural: "Geburtsorte", english: "place of birth", urdu: "جائے پیدائش" },
+            { german: "Geburtstag", plural: "Geburtstage", english: "birthday", urdu: "سالگرہ" },
+            { german: "Geld", plural: "Gelder", english: "money", urdu: "پیسہ" },
+            { german: "Gemüse", plural: "-", english: "vegetables", urdu: "سبزیاں" },
+            { german: "Gepäck", plural: "-", english: "baggage", urdu: "سامان" },
+            { german: "Geschäft", plural: "Geschäfte", english: "business", urdu: "کاروبار" },
+            { german: "Geschenk", plural: "Geschenke", english: "gift", urdu: "تحفہ" },
+            { german: "Geschwister", plural: "Geschwister", english: "siblings", urdu: "بہن بھائی" },
+            { german: "Gespräch", plural: "Gespräche", english: "conversation", urdu: "بات چیت" },
+            { german: "Getränk", plural: "Getränke", english: "beverage", urdu: "مشروب" },
+            { german: "Gewicht", plural: "Gewichte", english: "weight", urdu: "وزن" },
+            { german: "Glas", plural: "Gläser", english: "glass", urdu: "گلاس" },
+            { german: "Gleis", plural: "Gleise", english: "track", urdu: "پٹری" },
+            { german: "Glück", plural: "-", english: "luck", urdu: "قسمت" },
+            { german: "Glückwunsch", plural: "Glückwünsche", english: "congratulations", urdu: "مبارکباد" },
+            { german: "Grad", plural: "Grade", english: "degree", urdu: "ڈگری / درجہ" },
+            { german: "Grösse", plural: "Grössen", english: "size", urdu: "سائز" },
+            { german: "Grosseltern", plural: "Grosseltern", english: "grandparents", urdu: "دادا دادی" },
+            { german: "Grossmutter", plural: "Grossmütter", english: "grandmother", urdu: "دادی / نانی" },
+            { german: "Grossvater", plural: "Grossväter", english: "grandfather", urdu: "دادا / نانا" },
+            { german: "Gruppe", plural: "Gruppen", english: "group", urdu: "گروپ" },
+            { german: "Gruss", plural: "Grüsse", english: "greeting", urdu: "سلام" },
+            { german: "Haar", plural: "Haare", english: "hair", urdu: "بال" },
+            { german: "Hähnchen", plural: "Hähnchen", english: "chicken", urdu: "مرغی کا گوشت" },
+            { german: "Halbpension", plural: "Halbpensionen", english: "half board", urdu: "ہاف بورڈ" },
+            { german: "Halle", plural: "Hallen", english: "hall", urdu: "ہال" },
+            { german: "Haltestelle", plural: "Haltestellen", english: "bus stop", urdu: "بس اسٹاپ" },
+            { german: "Hand", plural: "Hände", english: "hand", urdu: "ہاتھ" },
+            { german: "Handy", plural: "Handys", english: "mobile phone", urdu: "موبائل فون" },
+            { german: "Haus", plural: "Häuser", english: "house", urdu: "گھر" },
+            { german: "Hausaufgabe", plural: "Hausaufgaben", english: "homework", urdu: "ہوم ورک" },
+            { german: "Hausfrau", plural: "Hausfrauen", english: "housewife", urdu: "گھریلو خاتون" },
+            { german: "Hausmann", plural: "Hausmänner", english: "househusband", urdu: "گھر سنبھالنے والا" },
+            { german: "Heimat", plural: "-", english: "homeland", urdu: "وطن" },
+            { german: "Herd", plural: "Herde", english: "stove", urdu: "چولہا" },
+            { german: "Herr", plural: "Herren", english: "mister", urdu: "مسٹر / جناب" },
+            { german: "Hilfe", plural: "Hilfen", english: "help", urdu: "مدد" },
+            { german: "Hobby", plural: "Hobbys", english: "hobby", urdu: "مشغلہ" },
+            { german: "Hochzeit", plural: "Hochzeiten", english: "wedding", urdu: "شادی" },
+            { german: "Hotel", plural: "Hotels", english: "hotel", urdu: "ہوٹل" },
+            { german: "Hund", plural: "Hunde", english: "dog", urdu: "کتا" },
+            { german: "Hunger", plural: "-", english: "hunger", urdu: "بھوک" },
+            { german: "Information", plural: "Informationen", english: "information", urdu: "معلومات" },
+            { german: "Internet", plural: "-", english: "internet", urdu: "انٹرنیٹ" },
+            { german: "Jacke", plural: "Jacken", english: "jacket", urdu: "جیکٹ" },
+            { german: "Job", plural: "Jobs", english: "job", urdu: "نوکری" },
+            { german: "Jugendliche", plural: "Jugendlichen", english: "teenager", urdu: "نوجوان" },
+            { german: "Junge", plural: "Jungen", english: "boy", urdu: "لڑکا" },
+            { german: "Kaffee", plural: "Kaffees", english: "coffee", urdu: "کافی" },
+            { german: "Karte", plural: "Karten", english: "card / ticket", urdu: "کارڈ" },
+            { german: "Kartoffel", plural: "Kartoffeln", english: "potato", urdu: "آلو" },
+            { german: "Kasse", plural: "Kassen", english: "cash counter", urdu: "کیش کاؤنٹر" },
+            { german: "Kind", plural: "Kinder", english: "child", urdu: "بچہ" },
+            { german: "Kindergarten", plural: "Kindergärten", english: "kindergarten", urdu: "بچوں کا اسکول" },
+            { german: "Kino", plural: "Kinos", english: "cinema", urdu: "سنیما" },
+            { german: "Klasse", plural: "Klassen", english: "class", urdu: "کلاس" },
+            { german: "Kleidung", plural: "-", english: "clothing", urdu: "کپڑے" },
+            { german: "Koffer", plural: "Koffer", english: "suitcase", urdu: "سوٹ کیس" },
+            { german: "Kollege", plural: "Kollegen", english: "colleague", urdu: "ساتھی" },
+            { german: "Konto", plural: "Konten", english: "account", urdu: "بینک اکاؤنٹ" },
+            { german: "Kopf", plural: "Köpfe", english: "head", urdu: "سر" },
+            { german: "Küche", plural: "Küchen", english: "kitchen", urdu: "باورچی خانہ" },
+            { german: "Kuchen", plural: "Kuchen", english: "cake", urdu: "کیک" },
+            { german: "Kugelschreiber", plural: "Kugelschreiber", english: "pen", urdu: "پین" },
+            { german: "Kühlschrank", plural: "Kühlschränke", english: "refrigerator", urdu: "فرج" },
+            { german: "Kunde", plural: "Kunden", english: "customer", urdu: "گاہک" },
+            { german: "Kurs", plural: "Kurse", english: "course", urdu: "کورس" },
+            { german: "Laden", plural: "Läden", english: "shop", urdu: "دکان" },
+            { german: "Land", plural: "Länder", english: "country", urdu: "ملک" },
+            { german: "Leben", plural: "Leben", english: "life", urdu: "زندگی" },
+            { german: "Lebensmittel", plural: "Lebensmittel", english: "groceries", urdu: "کھانے پینے کی اشیاء" },
+            { german: "Lehrer", plural: "Lehrer", english: "teacher", urdu: "استاد" },
+            { german: "Leute", plural: "Leute", english: "people", urdu: "لوگ" },
+            { german: "Licht", plural: "Lichter", english: "light", urdu: "روشنی" },
+            { german: "Lied", plural: "Lieder", english: "song", urdu: "گانا" },
+            { german: "Lkw", plural: "Lkws", english: "truck", urdu: "ٹرک" },
+            { german: "Lokal", plural: "Lokale", english: "restaurant", urdu: "ریسٹورنٹ" },
+            { german: "Lösung", plural: "Lösungen", english: "solution", urdu: "حل" },
+            { german: "Mädchen", plural: "Mädchen", english: "girl", urdu: "لڑکی" },
+            { german: "Mann", plural: "Männer", english: "man", urdu: "آدمی" },
+            { german: "Maschine", plural: "Maschinen", english: "machine", urdu: "مشین" },
+            { german: "Meer", plural: "Meere", english: "sea", urdu: "سمندر" },
+            { german: "Mensch", plural: "Menschen", english: "human", urdu: "انسان" },
+            { german: "Miete", plural: "Mieten", english: "rent", urdu: "کرایہ" },
+            { german: "Milch", plural: "-", english: "milk", urdu: "دودھ" },
+            { german: "Mitte", plural: "-", english: "middle", urdu: "درمیان" },
+            { german: "Möbel", plural: "Möbel", english: "furniture", urdu: "فرنیچر" },
+            { german: "Moment", plural: "Momente", english: "moment", urdu: "لمحہ" },
+            { german: "Morgen", plural: "Morgen", english: "morning", urdu: "صبح" },
+            { german: "Mund", plural: "Münder", english: "mouth", urdu: "منہ" },
+            { german: "Mutter", plural: "Mütter", english: "mother", urdu: "ماں" },
+            { german: "Name", plural: "Namen", english: "name", urdu: "نام" },
+            { german: "Nummer", plural: "Nummern", english: "number", urdu: "نمبر" },
+            { german: "Obst", plural: "-", english: "fruit", urdu: "پھل" },
+            { german: "Oma", plural: "Omas", english: "grandma", urdu: "دادی / نانی" },
+            { german: "Opa", plural: "Opas", english: "grandpa", urdu: "دادا / نانا" },
+            { german: "Ordnung", plural: "-", english: "order", urdu: "ترتیب" },
+            { german: "Ort", plural: "Orte", english: "place", urdu: "جگہ" },
+            { german: "Papier", plural: "Papiere", english: "paper", urdu: "کاغذ" },
+            { german: "Papiere", plural: "Papiere", english: "documents", urdu: "دستاویزات" },
+            { german: "Partner", plural: "Partner", english: "partner", urdu: "ساتھی" },
+            { german: "Partnerin", plural: "Partnerinnen", english: "female partner", urdu: "خاتون ساتھی" },
+            { german: "Party", plural: "Partys", english: "party", urdu: "پارٹی" },
+            { german: "Pass", plural: "Pässe", english: "passport", urdu: "پاسپورٹ" },
+            { german: "Pause", plural: "Pausen", english: "break", urdu: "وقفہ" },
+            { german: "Platz", plural: "Plätze", english: "seat / space", urdu: "سیٹ / جگہ" },
+            { german: "Polizei", plural: "-", english: "police", urdu: "پولیس" },
+            { german: "Pommes frites", plural: "-", english: "french fries", urdu: "چپس" },
+            { german: "Post", plural: "-", english: "mail / post office", urdu: "ڈاک خانہ" },
+            { german: "Postleitzahl"
